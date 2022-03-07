@@ -65,7 +65,9 @@ public class OrderAndProductService {
         System.out.println(orderDAO.getLastOrder());
     }
 
-    public void deleteLastOrder() {
+    public void deleteLastOrder() throws SQLException {
+        System.out.println(orderDAO.getLastOrder());
+        orderDAO.deleteLastOrder();
     }
 
     public void addOrder(String clientName,

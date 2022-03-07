@@ -51,9 +51,6 @@ public class OrderAndProductView {
     }
 
     // update order not sent to sent
-    // 1. show selected order (without product details)
-    // 2. update its sent status
-    // 3. show updated order
     public void updateOrderNotSentToSent(int id) throws SQLException {
         System.out.println("Update not sent to sent.");
         System.out.println("Order details prior to update:");
@@ -68,7 +65,9 @@ public class OrderAndProductView {
         service.getLastOrder();
     }
 
-    public void deleteLastOrder() {
+    public void deleteLastOrder() throws SQLException {
+        System.out.println("Order details last order: ");
+        service.deleteLastOrder();
     }
 
     public void addOrder(String clientName,

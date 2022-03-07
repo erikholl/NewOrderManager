@@ -16,12 +16,11 @@ public class Connectivity {
         return instance;
     }
 
-    public void initialise() throws SQLException {
+    public void initialise(String userName, String password, String dbName) throws SQLException {
+        String url = "jdbc:mysql://moktok.intecbrussel.org:33061/" + dbName;
         connection = DriverManager.getConnection(
-                "jdbc:mysql://moktok.intecbrussel.org:33061/erikh",
-                "erikh",
-                "erikh2021"
-        );
+                url, userName,
+                password);
     }
 
     // TODO: find a way to have the line 'connection ..' included in this Class
