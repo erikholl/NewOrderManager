@@ -2,6 +2,7 @@ package be.intecbrussel.data;
 
 import be.intecbrussel.entities.Order;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -10,6 +11,9 @@ import java.util.Optional;
 
 public class OrderDAO{
     Connection connection;
+
+    // SQL Strings
+
 
     // constructor
     public OrderDAO(Connection connection) {
@@ -60,8 +64,7 @@ public class OrderDAO{
         ResultSet getOrderId = getRS(sqlGetOrderId);
         int orderId = 0;
         while (getOrderId.next()) {
-            int i = getOrderId.getInt("id");
-            orderId = i;
+            orderId = getOrderId.getInt("id");
         }
         return orderId;
     }
@@ -92,7 +95,7 @@ public class OrderDAO{
 
     // get orders which are not sent
     public List<Order> ordersNotSent() throws SQLException {
-        List<Order> ordersNotSent = new ArrayList<>();
+        List<Order> ordersNotSent;
         String sqlOrdersNotSent = "SELECT * FROM order_table WHERE is_send = " +
                 "0;";
         ResultSet rs = getRS(sqlOrdersNotSent);
@@ -100,9 +103,18 @@ public class OrderDAO{
         return ordersNotSent;
     }
 
+    // update order not sent to sent
+    public void updateOrderNotSentToSent(int id) throws SQLException {
+        String sqlUpdateNotSentToSent = "UPDATE order_table SET is_send = 1 " +
+                "WHERE id = ?";
+        PreparedStatement ps = getPS(sqlUpdateNotSentToSent);
+        ps.setInt(1, id);
+        ps.executeUpdate();
+    }
+
     // get last order (no product details)
     public List<Order> getLastOrder() throws SQLException {
-        List<Order> lastOrder = new ArrayList<>();
+        List<Order> lastOrder;
         String sqlLastOrder = "SELECT * " +
                 "FROM order_table " +
                 "ORDER BY order_date DESC, id DESC " +
@@ -118,6 +130,7 @@ public class OrderDAO{
         List<Order> orderList = new ArrayList<>();
         while (rs.next()) {
             Order order = new Order(
+                    rs.getInt("id"),
                     rs.getString("order_number"),
                     rs.getString("order_client"),
                     rs.getString("order_delivery_address"),

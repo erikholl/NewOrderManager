@@ -15,10 +15,18 @@ public class OrderAndProductView {
 
     // read order
     public void getOrder(int id) throws SQLException {
-        System.out.println(orderStatement(id));
+        if (service.getOrder(id).isEmpty()) {
+            System.out.println("No order found with order id " + id);
+        } else {
+            System.out.println(service.getOrder(id).toString());
+        }
     }
 
-    private String orderStatement(int id) throws SQLException {
+    public void getOrderInclProduct(int id) throws SQLException {
+        System.out.println(orderDetails(id));
+    }
+
+    private String orderDetails(int id) throws SQLException {
         if (service.getOrder(id).isEmpty()) {
             return "No order found with order id " + id;
         } else {
@@ -42,10 +50,21 @@ public class OrderAndProductView {
         service.ordersNotSent();
     }
 
-    public void updateOrder(String orderNr, boolean b) {
+    // update order not sent to sent
+    // 1. show selected order (without product details)
+    // 2. update its sent status
+    // 3. show updated order
+    public void updateOrderNotSentToSent(int id) throws SQLException {
+        System.out.println("Update not sent to sent.");
+        System.out.println("Order details prior to update:");
+        getOrder(id);                           // print prior to update
+        service.updateOrderNotSentToSent(id);   // update
+        System.out.println("Order details after update:");
+        getOrder(id);                           // print after update
     }
 
     public void getLastOrder() throws SQLException {
+        System.out.println("Order details last order:");
         service.getLastOrder();
     }
 
@@ -71,4 +90,6 @@ public class OrderAndProductView {
                                    int amount, double pricePerUnit) throws SQLException {
         service.addProduct(orderId, productName, amount, pricePerUnit);
     }
+
+
 }

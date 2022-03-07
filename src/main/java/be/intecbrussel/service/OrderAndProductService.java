@@ -57,7 +57,8 @@ public class OrderAndProductService {
         }
     }
 
-    public void updateOrder(String orderNr, boolean b) {
+    public void updateOrderNotSentToSent(int id) throws SQLException {
+        orderDAO.updateOrderNotSentToSent(id);
     }
 
     public void getLastOrder() throws SQLException {
@@ -110,6 +111,7 @@ public class OrderAndProductService {
         }
         // check DB on generated orderNr - if needed, generate new orderNr
     }
+
     // ***********************************************************************
 
 }
