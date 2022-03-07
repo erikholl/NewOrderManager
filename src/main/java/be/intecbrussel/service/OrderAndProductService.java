@@ -49,7 +49,12 @@ public class OrderAndProductService {
         return this.productDAO.getProduct(id);
     }
 
-    public void ordersNotSent(boolean b) {
+    public void ordersNotSent() throws SQLException {
+        List<Order> ordersNotSent = orderDAO.ordersNotSent();
+        System.out.println("Orders not sent:");
+        for (Order order : ordersNotSent) {
+            System.out.println(order);
+        }
     }
 
     public void updateOrder(String orderNr, boolean b) {

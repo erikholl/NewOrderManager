@@ -38,7 +38,8 @@ public class OrderAndProductView {
         }
     }
 
-    public void ordersNotSent(boolean b) {
+    public void ordersNotSent() throws SQLException {
+        service.ordersNotSent();
     }
 
     public void updateOrder(String orderNr, boolean b) {

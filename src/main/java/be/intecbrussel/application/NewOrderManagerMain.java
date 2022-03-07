@@ -10,12 +10,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 // TODO: delete last order
-// TODO: update sent status
 // TODO: list orders not sent
 // TODO: delete last order
+// TODO: price total per order
 // TODO: check month comparison current vs. last order
 // TODO: check duplicate orderNr
+// TODO: check orderNr generate
 // TODO: order toString looks ugly
+// TODO: gather systemOuts in view
 
 public class NewOrderManagerMain {
 
@@ -27,6 +29,7 @@ public class NewOrderManagerMain {
             OrderAndProductView view = createUserViewer(connection);
             System.out.println("connection opened..");
 
+            // ***************** ADD TO DATABASE *****************
             // add orders - 2 ways:
             // 1 - addProductAndOrder - adds an Order with 1 product line
             // 2a - addOrder - adds an order, outputs orderId
@@ -40,17 +43,19 @@ public class NewOrderManagerMain {
 //                                    "Quadigy", 2, 259.6);
 //            view.addProductToOrder(1, "product", 2,
 //                                    329);
-            view.addProductToOrder(6, "Maths", 2, 249);
-            view.addProductToOrder(6, "Euclidean", 1, 199);
-            view.addProductToOrder(6, "Batumi", 1, 139);
-            view.addProductToOrder(6, "Quintet", 1, 299);
-            view.addProductToOrder(6, "Sarajewo", 2, 69);
+//            view.addProductToOrder(6, "Maths", 2, 249);
+//            view.addProductToOrder(6, "Euclidean", 1, 199);
+//            view.addProductToOrder(6, "Batumi", 1, 139);
+//            view.addProductToOrder(6, "Quintet", 1, 299);
+//            view.addProductToOrder(6, "Sarajewo", 2, 69);
 
+            // ***************** GET FROM DATABASE *****************
             // read order details based on orderId
-            view.getOrder(1); // parameter orderId
+            view.getOrder(6); // parameter orderId
 
-            // show list of orders not sent (not incl. product details)
-//            view.ordersNotSent(false); // parameter is_sent boolean
+            // show list of orders not sent (no product details)
+            view.ordersNotSent();
+
             // update an order not sent to sent:
             // 1. pick an order not sent, show it (without product details)
             // 2. pick an order and update its sent status to sent

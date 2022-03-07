@@ -90,6 +90,16 @@ public class OrderDAO{
         return Optional.empty();
     }
 
+    // get orders which are not sent
+    public List<Order> ordersNotSent() throws SQLException {
+        List<Order> ordersNotSent = new ArrayList<>();
+        String sqlOrdersNotSent = "SELECT * FROM order_table WHERE is_send = " +
+                "0;";
+        ResultSet rs = getRS(sqlOrdersNotSent);
+        ordersNotSent = createListWithOrders(rs);
+        return ordersNotSent;
+    }
+
     // get last order (no product details)
     public List<Order> getLastOrder() throws SQLException {
         List<Order> lastOrder = new ArrayList<>();
@@ -99,6 +109,13 @@ public class OrderDAO{
                 "LIMIT 1;";
 
         ResultSet rs = getRS(sqlLastOrder);
+        lastOrder = createListWithOrders(rs);
+        return lastOrder;
+    }
+
+    // help method assigning order details to ResultSet
+    private List<Order> createListWithOrders(ResultSet rs) throws SQLException {
+        List<Order> orderList = new ArrayList<>();
         while (rs.next()) {
             Order order = new Order(
                     rs.getString("order_number"),
@@ -110,9 +127,9 @@ public class OrderDAO{
                     rs.getBoolean("is_send"),
                     rs.getDate("order_date")
             );
-            lastOrder.add(order);
+            orderList.add(order);
         }
-        return lastOrder;
+        return orderList;
     }
 
     // TODO: below is not yet used, didn't get month comparison working yet
